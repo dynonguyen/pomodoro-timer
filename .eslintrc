@@ -1,0 +1,10 @@
+{
+  // Stop ESLint from looking for a configuration file in parent folders
+  "root": true,
+  "parser": "babel-eslint",
+  "rules": {
+    "semi": 1,
+    "quotes": [1, "single"],
+    "no-console": 1,
+  }
+}
