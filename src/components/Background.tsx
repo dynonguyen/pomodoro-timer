@@ -12,7 +12,7 @@ function Background() {
   return (
     <div id="bubbleWrap" className={classes.root}>
       {new Array(10).fill(0).map((_, index) => (
-        <div className={`bubble x${index + 1}`}></div>
+        <div key={index} className={`bubble x${index + 1}`}></div>
       ))}
     </div>
   );
