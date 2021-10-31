@@ -1,5 +1,7 @@
-import { useTheme } from '@mui/material/styles';
-import React from 'react';
+import React, { Suspense } from 'react';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { renderRoutes, routeList } from '../configs/routeConfig';
+import { ROUTES } from '../constants/routes';
 import useMobile from '../hooks/useMobile';
 import '../styles/css/bubble-animation.css';
 import useStyles from '../styles/Home';
@@ -9,23 +11,28 @@ const MobileNavbar = React.lazy(() => import('./MobileNavbar'));
 
 function HomePage(): JSX.Element {
   const classes = useStyles();
-  const theme = useTheme();
-  console.log(theme);
   const isMobile = useMobile();
 
   return (
     <>
-      {!isMobile && <Background />}
-      <div className={`${classes.wrapper} flex-center`}>
-        <div className={classes.paper}>
-          <div className={classes.navbarWrap}>
-            {isMobile ? <MobileNavbar /> : <DesktopNavbar />}
+      <BrowserRouter>
+        <Suspense fallback={<>Loading ...</>}>
+          {!isMobile && <Background />}
+          <div className={`${classes.wrapper} flex-center`}>
+            <div className={classes.paper}>
+              <div className="box">
+                {isMobile ? <MobileNavbar /> : <DesktopNavbar />}
+              </div>
+              <Switch>
+                {renderRoutes(routeList, false)}
+                <Route>
+                  <Redirect to={ROUTES.HOME} />
+                </Route>
+              </Switch>
+            </div>
           </div>
-          <div className={classes.timerWrap}>Timer</div>
-          <div className={classes.musicWrap}>Music</div>
-          <div className={classes.quoteWrap}>Quote</div>
-        </div>
-      </div>
+        </Suspense>
+      </BrowserRouter>
     </>
   );
 }
