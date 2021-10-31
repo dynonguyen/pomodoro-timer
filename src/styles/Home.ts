@@ -15,7 +15,18 @@ export default makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.paper,
     borderRadius: theme.shape.borderRadius,
     boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px',
+    margin: '0 auto',
 
+    [theme.breakpoints.down('xs')]: {
+      width: '100vw',
+      height: '100vh',
+      maxWidth: '100%',
+      borderRadius: 0,
+      padding: theme.spacing(2),
+    },
+  },
+
+  paperContent: {
     display: 'grid',
     gridTemplateColumns: '1fr 3fr',
     gap: theme.spacing(2.5),
@@ -26,17 +37,21 @@ export default makeStyles((theme: Theme) => ({
 
     [theme.breakpoints.down('xs')]: {
       gridTemplateRows: '9fr 1fr',
-      width: '100vw',
-      height: '100vh',
-      maxWidth: '100%',
-      borderRadius: 0,
-      padding: theme.spacing(2),
+      gridTemplateColumns: '1fr',
+      width: '100%',
+      height: '100%',
     },
 
-    '& > .box': {
+    '& .box': {
       borderRadius: theme.shape.borderRadius,
       overflow: 'hidden',
       boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+    },
+  },
+
+  navbarWrap: {
+    [theme.breakpoints.down('xs')]: {
+      gridRow: '2/3',
     },
   },
 }));

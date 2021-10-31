@@ -24,8 +24,6 @@ export default makeStyles((theme: Theme) => ({
   },
 
   loginBtn: {
-    color: theme.palette.text.secondary,
-    padding: theme.spacing(1, 3),
     borderRadius: 8,
     transition: theme.transitions.easing.easeInOut,
 
