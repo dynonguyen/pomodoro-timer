@@ -25,6 +25,14 @@ a {
   height: 100%;
 }
 
+.h-100 {
+  height: 100%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
 .flex-center {
   display: flex;
   align-items: center;
@@ -38,4 +46,8 @@ a {
 
 .flex-col {
   flex-direction: column;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
 }

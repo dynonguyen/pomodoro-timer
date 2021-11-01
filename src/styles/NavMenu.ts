@@ -6,7 +6,7 @@ export default makeStyles((theme: Theme) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(1.5, 1.5),
-    borderRadius: 8,
+    borderRadius: theme.shape.btnBorderRadius,
     transition: theme.transitions.easing.easeInOut,
 
     '&:hover': {

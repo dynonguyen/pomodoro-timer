@@ -46,6 +46,7 @@ export default makeStyles((theme: Theme) => ({
       borderRadius: theme.shape.borderRadius,
       overflow: 'hidden',
       boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+      backgroundColor: theme.palette.background.default,
     },
   },
 

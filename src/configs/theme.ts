@@ -9,6 +9,12 @@ declare module '@mui/material/styles' {
   }
 }
 
+declare module '@mui/system' {
+  interface Shape {
+    btnBorderRadius?: number | string;
+  }
+}
+
 export const commonThemes = {
   breakpoints: {
     values: {
@@ -24,6 +30,7 @@ export const commonThemes = {
   },
   shape: {
     borderRadius: 16,
+    btnBorderRadius: 8,
   },
   typography: {
     fontFamily: 'Mali',

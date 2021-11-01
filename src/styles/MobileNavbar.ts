@@ -8,6 +8,7 @@ export default makeStyles((theme: Theme) => ({
     justifyContent: 'space-between',
     height: '100% !important',
     width: '100% !important',
+    backgroundColor: `${theme.palette.background.default} !important`,
   },
 
   actionBtn: {
