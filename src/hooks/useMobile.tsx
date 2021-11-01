@@ -1,8 +1,8 @@
-import { useMediaQuery, useTheme } from '@mui/material';
+import { Breakpoint, useMediaQuery, useTheme } from '@mui/material';
 
-function useMobile(): boolean {
+function useMobile(size: Breakpoint = 'xs'): boolean {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+  const isMobile = useMediaQuery(theme.breakpoints.down(size));
 
   return isMobile;
 }
