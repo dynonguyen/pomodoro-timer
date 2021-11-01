@@ -18,7 +18,7 @@ function AccountLogin() {
           <Avatar
             src={avtSrc}
             alt={name}
-            sx={{ width: '48px', height: '48px', mb: '1rem' }}
+            sx={{ width: '48px', height: '48px', mb: '0.5rem' }}
           />
           <p className={classes.name}>{name}</p>
         </>
