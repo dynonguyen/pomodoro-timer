@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import { useState } from 'react';
 import useStyles from '../styles/TimerBox';
 import Clock from './Clock';

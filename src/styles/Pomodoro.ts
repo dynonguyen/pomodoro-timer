@@ -10,7 +10,7 @@ export default makeStyles((theme: Theme) => ({
 
     [theme.breakpoints.down('xs')]: {
       gridTemplateColumns: '1fr',
-      gridTemplateRows: '4fr 1fr',
+      gridTemplateRows: '3fr 1fr',
     },
   },
 

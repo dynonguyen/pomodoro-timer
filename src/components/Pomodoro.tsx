@@ -1,6 +1,7 @@
 import useMobile from '../hooks/useMobile';
 import useStyles from '../styles/Pomodoro';
 import LogoTitle from './LogoTitle';
+import Quote from './Quote';
 import TimerBox from './TimerBox';
 
 function Pomodoro() {
@@ -16,7 +17,9 @@ function Pomodoro() {
       </div>
       {!isTablet && <div className={`${classes.musicWrap} box`}>Music</div>}
       {!isTablet && <div className={`${classes.taskWrap} box`}>Task</div>}
-      <div className={`${classes.quoteWrap} box`}>Quote</div>
+      <div className={`${classes.quoteWrap} box`}>
+        <Quote />
+      </div>
     </div>
   );
 }
