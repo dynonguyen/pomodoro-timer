@@ -29,7 +29,7 @@ export default makeStyles((theme: Theme) => ({
   paperContent: {
     display: 'grid',
     gridTemplateColumns: '1fr 3fr',
-    gap: theme.spacing(2.5),
+    gridGap: theme.spacing(2.5),
 
     [theme.breakpoints.down('sm')]: {
       gridTemplateColumns: '3fr 7fr',

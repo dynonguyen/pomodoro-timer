@@ -3,9 +3,11 @@ import { PaletteMode } from '@mui/material';
 declare module '@mui/material/styles' {
   interface Palette {
     box?: string;
+    mainBackground?: string;
   }
   interface PaletteOptions {
     box?: string;
+    mainBackground?: string;
   }
 }
 
@@ -55,8 +57,11 @@ export const desginPaletteWithMode = (mode: PaletteMode) => ({
             light: '#abe088',
           },
           secondary: {
-            main: '#c8ecbe',
+            main: '#ff514f',
+            dark: '#eb3a38',
+            light: '#ff6563',
           },
+          mainBackground: '#c8ecbe',
           background: {
             paper: '#eaf6ec',
             default: '#ffffff',

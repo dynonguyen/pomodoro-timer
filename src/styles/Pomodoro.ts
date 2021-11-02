@@ -6,7 +6,7 @@ export default makeStyles((theme: Theme) => ({
     display: 'grid',
     gridTemplateRows: '5fr 5fr 3fr',
     gridTemplateColumns: '2fr 1fr',
-    gap: theme.spacing(2),
+    gridGap: theme.spacing(2),
 
     [theme.breakpoints.down('xs')]: {
       gridTemplateColumns: '1fr',

@@ -10,7 +10,7 @@ function Pomodoro() {
 
   return (
     <div className={classes.root}>
-      <div className={`${classes.timerWrap} box`}>
+      <div className={`${classes.timerWrap} box d-flex flex-col`}>
         {isMobile && <LogoTitle />}
         <TimerBox />
       </div>

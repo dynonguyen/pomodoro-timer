@@ -5,17 +5,17 @@ import AccountLogin from './AccountLogin';
 import NavMenu from './NavMenu';
 
 function DesktopNavbar() {
-  const classes = useStyles();
+	const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <AccountLogin />
-      <NavMenu />
-      <Box className={classes.image}>
-        <img src={imgSrc} />
-      </Box>
-    </div>
-  );
+	return (
+		<div className={classes.root}>
+			<AccountLogin />
+			<NavMenu />
+			<Box className={classes.image}>
+				<img src={imgSrc} />
+			</Box>
+		</div>
+	);
 }
 
 export default DesktopNavbar;

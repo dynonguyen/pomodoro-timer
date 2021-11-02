@@ -33,9 +33,7 @@ function TimerBox() {
         </p>
       </div>
 
-      <div className="flex-grow-1">
-        <Clock />
-      </div>
+      <Clock />
     </div>
   );
 }

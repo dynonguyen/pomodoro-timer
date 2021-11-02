@@ -29,7 +29,11 @@ export default makeStyles((theme: Theme) => ({
     },
 
     '&.stop': {
-      background: `linear-gradient(45deg, ${theme.palette.error.dark} 0%, ${theme.palette.error.light} 100%) !important`,
+      background: `${theme.palette.error.dark} !important`,
+    },
+
+    '&.reset': {
+      background: `linear-gradient(45deg, ${theme.palette.secondary.dark} 0%, ${theme.palette.secondary.light} 100%) !important`,
     },
 
     '&.Mui-disabled': {

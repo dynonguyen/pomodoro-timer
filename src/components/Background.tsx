@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.mainBackground,
   },
 }));
 

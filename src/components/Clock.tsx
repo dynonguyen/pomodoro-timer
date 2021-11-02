@@ -1,4 +1,7 @@
 import { Box, Button } from '@mui/material';
+import StopIcon from '@mui/icons-material/Stop';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useEffect, useState } from 'react';
 import useStyles from '../styles/Clock';
@@ -50,7 +53,7 @@ function Clock() {
   }, []);
 
   return (
-    <div className="flex-center flex-col h-100">
+    <div className="flex-center flex-col flex-grow-1">
       <Box sx={{ position: 'relative', display: 'inline-flex' }}>
         <CircularProgress
           className={classes.circle}
@@ -65,15 +68,21 @@ function Clock() {
         </div>
       </Box>
 
-      <Box mt={4} display="flex" gap={2}>
+      <Box mt={6} display="flex">
         <Button
           className={`${classes.button} ${run}`}
           variant="contained"
           onClick={onPause}
+          sx={{ marginRight: '1rem' }}
+          endIcon={run === 'start' ? <PlayArrowIcon /> : <StopIcon />}
         >
           {run}
         </Button>
-        <Button variant="contained" className={classes.button}>
+        <Button
+          variant="contained"
+          className={`${classes.button} reset`}
+          endIcon={<AutorenewIcon />}
+        >
           Reset
         </Button>
       </Box>

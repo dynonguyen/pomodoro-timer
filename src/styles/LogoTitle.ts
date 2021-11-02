@@ -7,7 +7,7 @@ export default makeStyles((theme: Theme) => ({
     margin: '0 auto 2rem',
 
     [theme.breakpoints.down('xs')]: {
-      margin: '0 auto 0.5rem',
+      margin: '0 auto 1rem',
     },
   },
 
