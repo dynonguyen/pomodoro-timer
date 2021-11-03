@@ -52,7 +52,7 @@ function Music() {
 
       {/* Music controls */}
       <Box my={2} width="100%">
-        <Box mb={1} className="flex-center">
+        <Box mb={1} className={`${classes.musicControls} flex-center`}>
           <IconButton>
             <FastRewindIcon fontSize="large" />
           </IconButton>

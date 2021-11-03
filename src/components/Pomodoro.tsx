@@ -1,9 +1,11 @@
+import React from 'react';
 import useMobile from '../hooks/useMobile';
 import useStyles from '../styles/Pomodoro';
 import LogoTitle from './LogoTitle';
-import Music from './Music';
 import Quote from './Quote';
 import TimerBox from './TimerBox';
+const Music = React.lazy(() => import('./Music'));
+const TaskBox = React.lazy(() => import('./TaskBox'));
 
 function Pomodoro() {
   const classes = useStyles();
@@ -23,7 +25,12 @@ function Pomodoro() {
         </div>
       )}
 
-      {!isTablet && <div className={`${classes.taskWrap} box`}>Task</div>}
+      {!isTablet && (
+        <div className={`${classes.taskWrap} box`}>
+          <TaskBox />
+        </div>
+      )}
+
       <div className={`${classes.quoteWrap} box`}>
         <Quote />
       </div>

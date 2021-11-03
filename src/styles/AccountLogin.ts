@@ -26,6 +26,9 @@ export default makeStyles((theme: Theme) => ({
   loginBtn: {
     borderRadius: theme.shape.btnBorderRadius,
     transition: theme.transitions.easing.easeInOut,
+    color: theme.palette.common.white,
+    fontSize: '1.1rem',
+    padding: '1rem',
 
     '&:hover': {
       letterSpacing: '2px',

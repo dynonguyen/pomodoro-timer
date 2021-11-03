@@ -29,8 +29,10 @@ export default makeStyles((theme: Theme) => ({
     },
   },
 
-  label: {
-    color: `${theme.palette.text.primary} !important`,
+  musicControls: {
+    '& *': {
+      color: `${theme.palette.text.primary} !important`,
+    },
   },
 
   selectRoot: {
