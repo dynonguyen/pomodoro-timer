@@ -11,6 +11,7 @@ html {
 
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 @media only screen and (max-width: 910px) {
@@ -20,10 +21,6 @@ a {
 }
 
 /* Atomic css */
-.d-flex {
-  display: flex;
-}
-
 .wh-100 {
   width: 100%;
   height: 100%;
@@ -35,6 +32,11 @@ a {
 
 .w-100 {
   width: 100%;
+}
+
+/* Flex box */
+.d-flex {
+  display: flex;
 }
 
 .flex-center {

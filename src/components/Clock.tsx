@@ -1,10 +1,11 @@
-import { Box, Button } from '@mui/material';
-import StopIcon from '@mui/icons-material/Stop';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import StopIcon from '@mui/icons-material/Stop';
+import { Box, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useEffect, useState } from 'react';
 import useStyles from '../styles/Clock';
+import { useStyleBtn } from '../styles/commons/Button';
 
 interface NewClockValue {
   second: string;
@@ -26,6 +27,8 @@ function getNewClockValue(
 
 function Clock() {
   const classes = useStyles();
+  const { buttonClass } = useStyleBtn();
+
   const [run, setRun] = useState<string>('start');
   const seconds: number = 25 * 60;
   const [secondsLeft, setSecondsLeft] = useState<number>(seconds);
@@ -70,7 +73,7 @@ function Clock() {
 
       <Box mt={6} display="flex">
         <Button
-          className={`${classes.button} ${run}`}
+          className={`${buttonClass} ${run}`}
           variant="contained"
           onClick={onPause}
           sx={{ marginRight: '1rem' }}
@@ -80,7 +83,7 @@ function Clock() {
         </Button>
         <Button
           variant="contained"
-          className={`${classes.button} reset`}
+          className={`${buttonClass} reset`}
           endIcon={<AutorenewIcon />}
         >
           Reset

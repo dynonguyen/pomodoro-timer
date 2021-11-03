@@ -4,10 +4,22 @@ declare module '@mui/material/styles' {
   interface Palette {
     box?: string;
     mainBackground?: string;
+    input?: {
+      iconBg: string;
+      inputBg: string;
+      textColor?: string;
+      placeholderColor?: string;
+    };
   }
   interface PaletteOptions {
     box?: string;
     mainBackground?: string;
+    input?: {
+      iconBg: string;
+      inputBg: string;
+      textColor?: string;
+      placeholderColor?: string;
+    };
   }
 }
 
@@ -36,6 +48,10 @@ export const commonThemes = {
   },
   typography: {
     fontFamily: 'Mali',
+    h3: {
+      fontSize: '1.75rem',
+      fontWeight: 600,
+    },
   },
   transitions: {
     easing: {
@@ -71,6 +87,10 @@ export const desginPaletteWithMode = (mode: PaletteMode) => ({
             secondary: '#ffffff',
           },
           box: '#e9f5e9',
+          input: {
+            iconBg: '#b6d3bb',
+            inputBg: '#eaf6ec',
+          },
         }
       : {}),
   },

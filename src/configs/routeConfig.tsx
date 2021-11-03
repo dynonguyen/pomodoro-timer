@@ -1,5 +1,6 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { Route, RouteComponentProps } from 'react-router-dom';
+import Login from '../components/Login';
 import Pomodoro from '../components/Pomodoro';
 import { ROUTES } from '../constants/routes';
 
@@ -21,7 +22,7 @@ export const routeList: Array<RouteConfig> = [
     path: ROUTES.LOGIN,
     exact: true,
     isProtect: false,
-    render: () => <div>Login</div>,
+    render: () => <Login />,
   },
   {
     path: ROUTES.SIGNUP,
@@ -55,7 +56,7 @@ export const renderRoutes = (
 ) => {
   return routeList.map((route: RouteConfig, index: number) => {
     const { path, exact, isProtect, render } = route;
-    const loginComponent = () => <>Login</>;
+    const loginComponent = () => <Login />;
     const componentRendered = !isProtect
       ? render
       : isAuth
