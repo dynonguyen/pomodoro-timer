@@ -14,6 +14,7 @@ export default makeStyles((theme: Theme) => ({
     '& img': {
       width: '100%',
       maxHeight: 180,
+      objectFit: 'cover',
     },
   },
 }));

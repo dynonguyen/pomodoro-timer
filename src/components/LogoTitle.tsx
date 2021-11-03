@@ -1,4 +1,4 @@
-import logoImgSrc from '../assets/logo.png';
+import logoImgSrc from '../assets/images/logo.png';
 import useStyles from '../styles/LogoTitle';
 
 function LogoTitle() {

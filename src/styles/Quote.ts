@@ -59,7 +59,6 @@ export default makeStyles((theme: Theme) => ({
   },
 
   quote: {
-    textAlign: 'justify',
     fontSize: '1.1rem',
     fontWeight: 300,
   },
