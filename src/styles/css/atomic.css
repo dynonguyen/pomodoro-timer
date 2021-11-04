@@ -21,6 +21,10 @@ a {
 }
 
 /* Atomic css */
+.d-none {
+  display: none !important;
+}
+
 .wh-100 {
   width: 100%;
   height: 100%;

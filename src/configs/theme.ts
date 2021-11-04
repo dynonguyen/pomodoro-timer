@@ -64,6 +64,9 @@ export const commonThemes = {
 export const desginPaletteWithMode = (mode: PaletteMode) => ({
   palette: {
     mode,
+    action: {
+      hover: 'rgba(0,0,0,0.1)',
+    },
     tonalOffset: 0.25,
     ...(mode === 'light'
       ? {

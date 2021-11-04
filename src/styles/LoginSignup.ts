@@ -2,12 +2,6 @@ import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 export default makeStyles((theme: Theme) => ({
-  title: {
-    textAlign: 'center',
-    color: theme.palette.text.primary,
-    'font-weight': 'bold !important',
-  },
-
   formWrap: {
     minWidth: '20rem',
     maxWidth: '25rem',
