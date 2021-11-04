@@ -3,6 +3,7 @@ import { Route, RouteComponentProps } from 'react-router-dom';
 import Login from '../components/Login';
 import Pomodoro from '../components/Pomodoro';
 import { ROUTES } from '../constants/routes';
+const Signup = React.lazy(() => import('../components/Signup'));
 
 interface RouteConfig {
   path: string;
@@ -28,7 +29,7 @@ export const routeList: Array<RouteConfig> = [
     path: ROUTES.SIGNUP,
     exact: true,
     isProtect: false,
-    render: () => <div>Signup</div>,
+    render: () => <Signup />,
   },
   {
     path: ROUTES.SETTINGS,

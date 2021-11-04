@@ -6,7 +6,6 @@ import { ROUTES } from '../constants/routes';
 import useMobile from '../hooks/useMobile';
 import '../styles/css/bubble-animation.css';
 import useStyles from '../styles/Home';
-import LogoTitle from './LogoTitle';
 
 const Background = React.lazy(() => import('./Background'));
 const DesktopNavbar = React.lazy(() => import('./DesktopNavbar'));
@@ -24,7 +23,6 @@ function HomePage(): JSX.Element {
           {!isMobile && <Background />}
           <div className={`${classes.wrapper} flex-center`}>
             <div className={classes.paper}>
-              {!isMobile && <LogoTitle />}
               <div className={classes.paperContent}>
                 <div className={`${classes.navbarWrap} box`}>
                   {isMobile ? <MobileNavbar /> : <DesktopNavbar />}

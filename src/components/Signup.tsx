@@ -1,3 +1,4 @@
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import LockIcon from '@mui/icons-material/Lock';
 import PersonIcon from '@mui/icons-material/Person';
 import { Box, Button, Stack, Typography } from '@mui/material';
@@ -8,7 +9,7 @@ import { useStyleBtn } from '../styles/commons/Button';
 import useStyles from '../styles/LoginSignup';
 import CustomInput from './commons/CustomInput';
 
-function Login() {
+function Signup() {
   const { buttonClass } = useStyleBtn();
   const classes = useStyles();
 
@@ -17,7 +18,7 @@ function Login() {
       <Box className={classes.formWrap}>
         <Stack spacing={4}>
           <Typography className={classes.title} component="h3" variant="h3">
-            LOGIN
+            CREATE YOUR ACCOUNT
           </Typography>
 
           <Typography component="p" className={classes.errorMessage}>
@@ -34,6 +35,14 @@ function Login() {
           />
 
           <CustomInput
+            icon={AssignmentIndIcon}
+            placeholder="Full name"
+            name="fullname"
+            maxLength={MAX_LEN.FULLNAME}
+            type="text"
+          />
+
+          <CustomInput
             icon={LockIcon}
             placeholder="Password"
             type="password"
@@ -45,13 +54,13 @@ function Login() {
             className={`${buttonClass} ${classes.submitBtn}`}
             variant="contained"
           >
-            Login
+            Register
           </Button>
 
           <Typography component="p" className={classes.redirectMessage}>
-            Not a member?{' '}
-            <Link to={ROUTES.SIGNUP} className={classes.link}>
-              Sign up now
+            Have an account?{' '}
+            <Link to={ROUTES.LOGIN} className={classes.link}>
+              Login now
             </Link>
           </Typography>
         </Stack>
@@ -60,4 +69,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;
