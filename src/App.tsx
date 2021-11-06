@@ -4,13 +4,13 @@ import ThemeContextProvider from './contexts/ThemeContext';
 import './styles/css/atomic.css';
 
 function App() {
-  return (
-    <ThemeContextProvider>
-      <AccountContextProvider>
-        <HomePage />
-      </AccountContextProvider>
-    </ThemeContextProvider>
-  );
+	return (
+		<ThemeContextProvider>
+			<AccountContextProvider>
+				<HomePage />
+			</AccountContextProvider>
+		</ThemeContextProvider>
+	);
 }
 
 export default App;

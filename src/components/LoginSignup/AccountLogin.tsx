@@ -1,10 +1,10 @@
-import { Avatar } from '@mui/material';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { AccountContext } from '../../contexts/AccountContext';
 import useStyles from '../../styles/AccountLogin';
 import defaultUserImg from '../../assets/images/default-user.png';
+import { Avatar } from '@mui/material';
 
 function AccountLogin() {
 	const classes = useStyles();

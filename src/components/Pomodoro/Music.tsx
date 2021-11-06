@@ -3,11 +3,10 @@ import FastRewindIcon from '@mui/icons-material/FastRewindRounded';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import VolumeDown from '@mui/icons-material/VolumeDown';
 import VolumeUp from '@mui/icons-material/VolumeUp';
-import { IconButton, Stack } from '@mui/material';
+import { IconButton, Slider, Stack } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import Slider from '@mui/material/Slider';
 import { Box } from '@mui/system';
 import useStyles from '../../styles/Music';
 
