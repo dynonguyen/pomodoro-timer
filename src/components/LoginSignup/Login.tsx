@@ -1,6 +1,7 @@
 import LockIcon from '@mui/icons-material/Lock';
 import PersonIcon from '@mui/icons-material/Person';
 import { Box, Button, Stack, Typography } from '@mui/material';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MAX_LEN } from '../../constants/lengths';
 import { ROUTES } from '../../constants/routes';
@@ -11,6 +12,7 @@ import CustomInput from '../Commons/CustomInput';
 function Login() {
 	const { buttonClass, titleClass } = useCommonStyles();
 	const classes = useStyles();
+	const [error, setError] = useState({ isError: false, msg: '' });
 
 	return (
 		<Box p={4} className='box flex-center flex-col'>
@@ -20,9 +22,11 @@ function Login() {
 						LOGIN
 					</Typography>
 
-					<Typography component='p' className={classes.errorMessage}>
-						Please enter your username
-					</Typography>
+					{error.isError && (
+						<Typography component='p' className={classes.errorMessage}>
+							Please enter your username
+						</Typography>
+					)}
 
 					<CustomInput
 						icon={PersonIcon}

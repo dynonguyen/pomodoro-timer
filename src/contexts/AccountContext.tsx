@@ -12,7 +12,7 @@ interface AccountContextValue {
 }
 
 const defaultValue: AccountContextValue = {
-	isAuth: true,
+	isAuth: false,
 	username: 'anonymous',
 	name: 'Anonymous',
 	avt: '',

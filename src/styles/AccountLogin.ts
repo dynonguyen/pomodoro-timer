@@ -26,7 +26,8 @@ export default makeStyles((theme: Theme) => ({
 		transition: theme.transitions.easing.easeInOut,
 		color: theme.palette.common.white,
 		fontSize: '1.1rem',
-		padding: '1rem',
+		padding: '0.5rem 1.5rem',
+		border: 'solid 1px white',
 
 		'&:hover': {
 			letterSpacing: '2px',
