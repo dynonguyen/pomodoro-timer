@@ -6,6 +6,7 @@ import { AccountContext } from '../contexts/AccountContext';
 import useMobile from '../hooks/useMobile';
 import '../styles/css/bubble-animation.css';
 import useStyles from '../styles/Home';
+import GlobalLoading from './Commons/GlobalLoading';
 
 const Background = React.lazy(() => import('./Background'));
 const DesktopNavbar = React.lazy(() => import('./Navbar/DesktopNavbar'));
@@ -19,7 +20,7 @@ function HomePage(): JSX.Element {
 	return (
 		<>
 			<BrowserRouter>
-				<Suspense fallback={<>Loading ...</>}>
+				<Suspense fallback={<GlobalLoading />}>
 					{!isMobile && <Background />}
 					<div className={`${classes.wrapper} flex-center`}>
 						<div className={classes.paper}>
