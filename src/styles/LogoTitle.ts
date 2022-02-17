@@ -16,8 +16,8 @@ export default makeStyles((theme: Theme) => ({
 	},
 
 	logo: {
-		width: '3rem',
-		height: '3rem',
+		width: '3.5rem',
+		height: '3.5rem',
 		marginLeft: theme.spacing(1),
 	},
 }));

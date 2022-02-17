@@ -5,8 +5,6 @@ export default makeStyles((theme: Theme) => ({
 	accountWrap: {
 		width: '100%',
 		padding: theme.spacing(2, 1),
-		borderBottomLeftRadius: Number(theme.shape.borderRadius) * 1.5,
-
 		background: `linear-gradient(45deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.light} 100%)`,
 	},
 

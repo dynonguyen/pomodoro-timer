@@ -1,4 +1,3 @@
-import { useTheme } from '@mui/material';
 import React, { Suspense, useContext } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { renderRoutes, routeList } from '../configs/routeConfig';
@@ -16,7 +15,6 @@ function HomePage(): JSX.Element {
 	const classes = useStyles();
 	const isMobile = useMobile();
 	const { isAuth } = useContext(AccountContext);
-	console.log(useTheme());
 
 	return (
 		<>

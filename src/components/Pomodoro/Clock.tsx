@@ -3,9 +3,10 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import { Box, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useStyles from '../../styles/Clock';
 import { useCommonStyles } from '../../styles/commons/CommonStyle';
+let intervalId: null | ReturnType<typeof setInterval> = null;
 
 interface NewClockValue {
 	second: string;
@@ -30,30 +31,43 @@ function Clock() {
 	const { buttonClass } = useCommonStyles();
 
 	const [run, setRun] = useState<string>('start');
-	const seconds: number = 25 * 60;
+	const seconds: number = 5;
 	const [secondsLeft, setSecondsLeft] = useState<number>(seconds);
 	const { second, minute, circlePercent } = getNewClockValue(
 		secondsLeft,
 		seconds,
 	);
 
-	const onPause = () => {
+	const onPauseOrStart = (): void => {
 		if (run === 'start') {
+			intervalId && clearInterval(intervalId);
+			intervalId = setInterval(() => {
+				setSecondsLeft((preValue: number) => {
+					const newSecondLeft: number = preValue - 1;
+					if (newSecondLeft <= 0) {
+						// Can xu ly khi time out
+						alert('Time out');
+						intervalId && clearInterval(intervalId);
+						setRun('start');
+						return 0;
+					}
+					return newSecondLeft;
+				});
+			}, 1000);
 			setRun('stop');
 		} else {
+			intervalId && clearInterval(intervalId);
 			setRun('start');
 		}
 	};
 
-	useEffect(() => {
-		const intervalId = setInterval(() => {
-			setSecondsLeft((preValue) => preValue - 1);
-		}, 1000);
-
-		return () => {
+	const onReset = (): void => {
+		if (secondsLeft !== seconds) {
 			intervalId && clearInterval(intervalId);
-		};
-	}, []);
+			setRun('start');
+			setSecondsLeft(seconds);
+		}
+	};
 
 	return (
 		<div className='flex-center flex-col flex-grow-1'>
@@ -75,7 +89,7 @@ function Clock() {
 				<Button
 					className={`${buttonClass} ${run}`}
 					variant='contained'
-					onClick={onPause}
+					onClick={onPauseOrStart}
 					sx={{ marginRight: '1rem' }}
 					endIcon={run === 'start' ? <PlayArrowIcon /> : <StopIcon />}
 				>
@@ -85,6 +99,7 @@ function Clock() {
 					variant='contained'
 					className={`${buttonClass} reset`}
 					endIcon={<AutorenewIcon />}
+					onClick={onReset}
 				>
 					Reset
 				</Button>
