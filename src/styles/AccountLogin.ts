@@ -11,7 +11,7 @@ export default makeStyles((theme: Theme) => ({
 	name: {
 		color: theme.palette.common.white,
 		fontWeight: 500,
-		fontSize: '1.2rem',
+		fontSize: '1.1rem',
 		letterSpacing: '0.75px',
 
 		overflow: 'hidden',
