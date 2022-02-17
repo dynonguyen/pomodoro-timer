@@ -8,7 +8,7 @@ import useStyles from '../../styles/AccountLogin';
 
 function AccountLogin() {
 	const classes = useStyles();
-	const { isAuth, name, avt } = useContext(AccountContext);
+	const { isAuth, fullname, avt } = useContext(AccountContext);
 	const avtSrc = avt !== '' ? avt : defaultUserImg;
 
 	return (
@@ -17,10 +17,10 @@ function AccountLogin() {
 				<>
 					<Avatar
 						src={avtSrc}
-						alt={name}
+						alt={fullname}
 						sx={{ width: '48px', height: '48px', mb: '0.5rem' }}
 					/>
-					<p className={classes.name}>{name}</p>
+					<p className={classes.name}>{fullname}</p>
 				</>
 			) : (
 				<Link to={ROUTES.LOGIN} className={classes.loginBtn}>

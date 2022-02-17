@@ -68,10 +68,10 @@ function NavMenu() {
 			))}
 
 			{isAuth && (
-				<Link to='/' className={classes.menuItem}>
+				<div className={classes.menuItem}>
 					<LogoutIcon />
 					<Box ml={2}>Logout</Box>
-				</Link>
+				</div>
 			)}
 		</Stack>
 	);

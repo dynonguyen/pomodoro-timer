@@ -1,7 +1,13 @@
 import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import * as auth from 'firebase/auth';
-import { doc, getFirestore, setDoc } from 'firebase/firestore';
+import {
+	doc,
+	DocumentData,
+	getDoc,
+	getFirestore,
+	setDoc,
+} from 'firebase/firestore';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyCoSyASMNmlAcuNgux0AHZy3N3di7F5c3I',
@@ -18,4 +24,23 @@ const app = initializeApp(firebaseConfig);
 getAnalytics(app);
 const db = getFirestore();
 
-export { auth, db, doc, setDoc };
+// util functions
+async function getFirebaseDocument(
+	collectionName: string,
+	documentId: string,
+): Promise<DocumentData | null> {
+	try {
+		const docRef = doc(db, collectionName, documentId);
+		const docSnap = await getDoc(docRef);
+
+		if (docSnap.exists()) {
+			return docSnap.data();
+		}
+
+		return null;
+	} catch (error) {
+		throw error;
+	}
+}
+
+export { auth, db, doc, setDoc, getFirebaseDocument };
