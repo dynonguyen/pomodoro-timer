@@ -1,10 +1,12 @@
 export const MAX_LEN = {
-  USERNAME: 40,
-  PASSWORD: 40,
-  FULLNAME: 50,
+	USERNAME: 40,
+	PASSWORD: 40,
+	FULLNAME: 50,
+	TASK_LABEL: 150,
+	TASK_DESC: 300,
 };
 
 export const MIN_LEN = {
-  USERNAME: 4,
-  PASSWORD: 6,
+	USERNAME: 4,
+	PASSWORD: 6,
 };

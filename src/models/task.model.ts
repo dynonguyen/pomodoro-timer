@@ -1,5 +1,5 @@
 export interface TaskModel {
-	id: string;
+	id?: string;
 	uid: string;
 	label: string;
 	desc?: string;

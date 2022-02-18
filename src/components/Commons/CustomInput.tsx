@@ -4,7 +4,7 @@ import { InputHTMLAttributes, useState } from 'react';
 import useStyles from '../../styles/commons/CustomInput';
 
 interface CustomInputProps extends InputHTMLAttributes<HTMLInputElement> {
-	icon: any;
+	icon?: any;
 }
 
 function CustomInput(props: CustomInputProps) {
@@ -14,9 +14,12 @@ function CustomInput(props: CustomInputProps) {
 
 	return (
 		<div className={`${classes.inputGroup} flex-center-ver`}>
-			<div className={`${classes.inputIcon} h-100 flex-center`}>
-				<Icon className={classes.icon} />
-			</div>
+			{Icon && (
+				<div className={`${classes.inputIcon} h-100 flex-center`}>
+					<Icon className={classes.icon} />
+				</div>
+			)}
+
 			<input
 				className={`${classes.input} wh-100`}
 				type={inputType}

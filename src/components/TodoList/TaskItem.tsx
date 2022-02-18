@@ -21,7 +21,7 @@ import { useState } from 'react';
 import { db } from '../../configs/firebase';
 import { formatDate } from '../../helpers';
 import { TaskModel } from '../../models/task.model';
-import useStyles from '../../styles/TodoList';
+import useStyles from '../../styles/TaskItem';
 
 interface TaskItemProps {
 	task: TaskModel;
