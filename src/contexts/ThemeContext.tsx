@@ -4,36 +4,36 @@ import { createContext, ReactNode, useState } from 'react';
 import { commonThemes, desginPaletteWithMode } from '../configs/theme';
 
 interface ThemeContextProviderProps {
-  children: ReactNode;
+	children: ReactNode;
 }
 
 interface ThemeContextValue {
-  mode: PaletteMode;
-  toggleThemeMode: (mode: PaletteMode) => void;
+	mode: PaletteMode;
+	toggleThemeMode: (mode: PaletteMode) => void;
 }
 
 const defaultTheme: ThemeContextValue = {
-  mode: 'light',
-  toggleThemeMode: () => {},
+	mode: 'light',
+	toggleThemeMode: () => {},
 };
 
 export const ThemeContext = createContext<ThemeContextValue>(defaultTheme);
 
 const ThemeContextProvider = ({ children }: ThemeContextProviderProps) => {
-  const [mode, setMode] = useState(defaultTheme.mode);
+	const [mode, setMode] = useState(defaultTheme.mode);
 
-  const toggleThemeMode = (newMode: PaletteMode) => setMode(newMode);
+	const toggleThemeMode = (newMode: PaletteMode) => setMode(newMode);
 
-  const themeContextData = { mode, toggleThemeMode };
+	const themeContextData = { mode, toggleThemeMode };
 
-  const palette = desginPaletteWithMode(mode);
-  const theme = createTheme({ ...palette, ...commonThemes });
+	const palette = desginPaletteWithMode(mode);
+	const theme = createTheme({ ...palette, ...commonThemes });
 
-  return (
-    <ThemeContext.Provider value={themeContextData}>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
-    </ThemeContext.Provider>
-  );
+	return (
+		<ThemeContext.Provider value={themeContextData}>
+			<ThemeProvider theme={theme}>{children}</ThemeProvider>
+		</ThemeContext.Provider>
+	);
 };
 
 export default ThemeContextProvider;
