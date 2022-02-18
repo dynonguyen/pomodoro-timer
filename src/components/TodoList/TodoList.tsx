@@ -1,5 +1,5 @@
 import AddIcon from '@mui/icons-material/AddCircle';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import FilterIcon from '@mui/icons-material/FilterAlt';
 import {
 	Box,
 	Button,
@@ -25,7 +25,6 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { db } from '../../configs/firebase';
 import { MAX_LEN } from '../../constants/lengths';
 import { AccountContext } from '../../contexts/AccountContext';
-import useMobile from '../../hooks/useMobile';
 import { TaskModel } from '../../models/task.model';
 import { useCommonStyles } from '../../styles/commons/CommonStyle';
 import useStyles from '../../styles/TodoList';
@@ -36,55 +35,9 @@ interface TaskFormProps {
 	onCloseDialog: () => void;
 }
 
-function MobileActionGroup(props: any) {
-	const { classes } = props;
-
-	return (
-		<Select
-			classes={{ root: classes.selectRoot }}
-			variant='outlined'
-			size='small'
-			displayEmpty
-			value={-1}
-		>
-			<MenuItem disabled value={-1}>
-				<em>Actions</em>
-			</MenuItem>
-
-			<MenuItem>Add Task</MenuItem>
-			<MenuItem>Remove All</MenuItem>
-			<MenuItem>Remove Completed Tasks</MenuItem>
-		</Select>
-	);
-}
-
-function DesktopActionGroup(props: any) {
-	const { buttonClass, onAddTaskClick } = props;
-	return (
-		<>
-			<Button
-				className={`${buttonClass} short no-shadow`}
-				startIcon={<AddIcon />}
-				variant='contained'
-				onClick={onAddTaskClick}
-			>
-				Add Task
-			</Button>
-			<Button
-				className={`${buttonClass} stop short no-shadow`}
-				startIcon={<DeleteForeverIcon />}
-				variant='contained'
-			>
-				Remove all
-			</Button>
-		</>
-	);
-}
-
 function ActionGroup(props: any) {
 	const { classes, onAddTaskClick } = props;
 	const { buttonClass, titleClass } = useCommonStyles();
-	const isSmDevice = useMobile('sm');
 
 	return (
 		<>
@@ -108,30 +61,24 @@ function ActionGroup(props: any) {
 					value={-1}
 				>
 					<MenuItem disabled value={-1}>
-						<em>Filter</em>
+						<div className='flex-center'>
+							<FilterIcon sx={{ marginRight: '8px' }} />
+							<span>Filter</span>
+						</div>
 					</MenuItem>
+					<MenuItem value={0}>All</MenuItem>
+					<MenuItem value={1}>Doing</MenuItem>
+					<MenuItem value={2}>Completed</MenuItem>
 				</Select>
 
-				<Select
-					classes={{ root: classes.selectRoot }}
-					variant='outlined'
-					size='small'
-					displayEmpty
-					value={-1}
+				<Button
+					className={`${buttonClass} outlined short no-shadow`}
+					startIcon={<AddIcon />}
+					variant='contained'
+					onClick={onAddTaskClick}
 				>
-					<MenuItem disabled value={-1}>
-						<em>Sorting</em>
-					</MenuItem>
-				</Select>
-
-				{isSmDevice ? (
-					<MobileActionGroup classes={classes} />
-				) : (
-					<DesktopActionGroup
-						buttonClass={buttonClass}
-						onAddTaskClick={onAddTaskClick}
-					/>
-				)}
+					Add Task
+				</Button>
 			</Stack>
 		</>
 	);
@@ -255,6 +202,11 @@ function TodoList() {
 		setShowTaskForm(false);
 	};
 
+	const onRemoveTaskSuccess = (taskId: string): void => {
+		const newTaskList = taskList.filter((task) => task.id !== taskId);
+		setTaskList([...newTaskList]);
+	};
+
 	// Load task list
 	useEffect(() => {
 		(async function () {
@@ -299,9 +251,10 @@ function TodoList() {
 							{taskList.map((task, index) => (
 								<TaskItem
 									key={index}
+									task={task}
 									onHover={onHoverTaskItem}
 									onMouseOut={onMouseOutTaskItem}
-									task={task}
+									onRemoveSuccess={onRemoveTaskSuccess}
 								/>
 							))}
 						</Stack>

@@ -16,7 +16,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { doc, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { db } from '../../configs/firebase';
 import { formatDate } from '../../helpers';
@@ -27,14 +27,16 @@ interface TaskItemProps {
 	task: TaskModel;
 	onHover: (taskId: string) => void;
 	onMouseOut: (taskId: string) => void;
+	onRemoveSuccess: (taskId: string) => void;
 }
 
 function TaskItem(props: TaskItemProps) {
-	const { onHover, onMouseOut, task } = props;
+	const { onHover, onMouseOut, task, onRemoveSuccess } = props;
 	const classes = useStyles();
-	const { label, isCompleted, createdDate, id: taskId, desc } = task;
+	const { label, isCompleted, createdDate, id: taskId = '', desc } = task;
 	const [completedState, setCompletedState] = useState(isCompleted);
 	const [showDesc, setShowDesc] = useState(false);
+	const [isRemoving, setIsRemoving] = useState(false);
 
 	const updateIsCompleted = async (): Promise<void> => {
 		setCompletedState(!completedState);
@@ -42,6 +44,17 @@ function TaskItem(props: TaskItemProps) {
 		await updateDoc(taskRef, {
 			isCompleted: !completedState,
 		});
+	};
+
+	const removeTask = async (): Promise<void> => {
+		setIsRemoving(true);
+		try {
+			await deleteDoc(doc(db, 'tasks', taskId));
+			onRemoveSuccess(taskId);
+		} catch (error) {
+		} finally {
+			setIsRemoving(false);
+		}
 	};
 
 	return (
@@ -76,6 +89,7 @@ function TaskItem(props: TaskItemProps) {
 
 			{/* Task item */}
 			<ListItem
+				className={isRemoving ? 'disabled' : ''}
 				onMouseEnter={() => onHover(taskId)}
 				onMouseLeave={() => onMouseOut(taskId)}
 				key={taskId}
@@ -89,10 +103,10 @@ function TaskItem(props: TaskItemProps) {
 						<IconButton onClick={() => setShowDesc(true)}>
 							<VisibilityIcon />
 						</IconButton>
-						<IconButton>
+						<IconButton onClick={() => console.log('Hello')}>
 							<EditIcon />
 						</IconButton>
-						<IconButton>
+						<IconButton onClick={removeTask}>
 							<DeleteIcon />
 						</IconButton>
 					</Stack>
