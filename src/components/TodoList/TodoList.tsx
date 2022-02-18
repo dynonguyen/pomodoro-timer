@@ -1,8 +1,5 @@
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/AddCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
 	Box,
 	Button,
@@ -11,39 +8,72 @@ import {
 	Stack,
 	Typography,
 } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { useContext, useEffect, useState } from 'react';
+import { db } from '../../configs/firebase';
+import { AccountContext } from '../../contexts/AccountContext';
 import useMobile from '../../hooks/useMobile';
+import { TaskModel } from '../../models/task.model';
 import { useCommonStyles } from '../../styles/commons/CommonStyle';
 import useStyles from '../../styles/TodoList';
+import TaskItem from './TaskItem';
 
-function ConfirmDeleteTodo() {
-	return <Button>Hello</Button>;
+function MobileActionGroup(props: any) {
+	const { classes } = props;
+
+	return (
+		<Select
+			classes={{ root: classes.selectRoot }}
+			variant='outlined'
+			size='small'
+			displayEmpty
+			value={-1}
+		>
+			<MenuItem disabled value={-1}>
+				<em>Actions</em>
+			</MenuItem>
+
+			<MenuItem>Add Task</MenuItem>
+			<MenuItem>Remove All</MenuItem>
+			<MenuItem>Remove Completed Tasks</MenuItem>
+		</Select>
+	);
 }
 
-function TodoList() {
-	const classes = useStyles();
+function DesktopActionGroup(props: any) {
+	const { buttonClass } = props;
+	return (
+		<>
+			<Button
+				className={`${buttonClass} short no-shadow`}
+				startIcon={<AddIcon />}
+				variant='contained'
+			>
+				Add Task
+			</Button>
+			<Button
+				className={`${buttonClass} stop short no-shadow`}
+				startIcon={<DeleteForeverIcon />}
+				variant='contained'
+			>
+				Remove all
+			</Button>
+		</>
+	);
+}
+
+function ActionGroup(props: any) {
+	const { classes } = props;
 	const { buttonClass, titleClass } = useCommonStyles();
 	const isSmDevice = useMobile('sm');
 
-	const onHover = (id: string) => {
-		document.getElementById(id)?.classList.remove('d-none');
-	};
-
-	const onMouseOut = (id: string) => {
-		document.getElementById(id)?.classList.add('d-none');
-	};
-
 	return (
-		<Box py={4} px={2} className='box d-flex flex-col'>
+		<>
 			<Typography variant='h3' className={titleClass} component='h2'>
 				TODO LIST
 			</Typography>
 
+			{/* Action groups */}
 			<Stack
 				spacing={2}
 				my={3}
@@ -76,100 +106,67 @@ function TodoList() {
 				</Select>
 
 				{isSmDevice ? (
-					<>
-						<Select
-							classes={{ root: classes.selectRoot }}
-							variant='outlined'
-							size='small'
-							displayEmpty
-							value={-1}
-						>
-							<MenuItem disabled value={-1}>
-								<em>Actions</em>
-							</MenuItem>
-
-							<MenuItem>Add Task</MenuItem>
-							<MenuItem>Remove All</MenuItem>
-							<MenuItem>Remove Completed Tasks</MenuItem>
-						</Select>
-					</>
+					<MobileActionGroup classes={classes} />
 				) : (
-					<>
-						<Button
-							className={`${buttonClass} short no-shadow`}
-							startIcon={<AddIcon />}
-							variant='contained'
-						>
-							Add Task
-						</Button>
-						<Button
-							className={`${buttonClass} stop short no-shadow`}
-							startIcon={<DeleteForeverIcon />}
-							variant='contained'
-						>
-							Remove all
-						</Button>
-					</>
+					<DesktopActionGroup buttonClass={buttonClass} />
 				)}
 			</Stack>
+		</>
+	);
+}
 
+function TodoList() {
+	const classes = useStyles();
+	const [taskList, setTaskList] = useState<Array<TaskModel>>([]);
+	const { uid } = useContext(AccountContext);
+
+	const onHoverTaskItem = (id: string) => {
+		document.getElementById(id)?.classList.remove('d-none');
+	};
+
+	const onMouseOutTaskItem = (id: string) => {
+		document.getElementById(id)?.classList.add('d-none');
+	};
+
+	// Load task list
+	useEffect(() => {
+		(async function () {
+			const q = query(collection(db, 'tasks'), where('uid', '==', uid));
+			const querySnapshot = await getDocs(q);
+
+			const tasks: Array<any> = [];
+			querySnapshot.forEach((doc) => {
+				tasks.push({ ...doc.data(), id: doc.id });
+			});
+
+			setTaskList([...tasks]);
+		})();
+		return () => {};
+	}, []);
+
+	return (
+		<Box py={4} px={2} className='box d-flex flex-col'>
+			{/* Action group */}
+			<ActionGroup classes={classes} />
+
+			{/* Task list */}
 			<Box className={`${classes.todoWrap} flex-grow-1`}>
-				<Stack spacing={2} px={4}>
-					{new Array(20).fill(1).map((value, index) => {
-						const labelId = `checkbox-list-label-${index}`;
-
-						return (
-							<ListItem
-								onMouseEnter={() => onHover(index.toString())}
-								onMouseLeave={() => onMouseOut(index.toString())}
+				{taskList.length ? (
+					<Stack spacing={2} px={4}>
+						{taskList.map((task, index) => (
+							<TaskItem
 								key={index}
-								secondaryAction={
-									<Stack
-										spacing={0.5}
-										id={index.toString()}
-										direction='row'
-										className={`${classes.action} d-none`}
-									>
-										<IconButton aria-label='comments'>
-											<VisibilityIcon />
-										</IconButton>
-										<IconButton aria-label='comments'>
-											<EditIcon />
-										</IconButton>
-										<IconButton aria-label='comments'>
-											<DeleteIcon />
-										</IconButton>
-									</Stack>
-								}
-								disablePadding
-							>
-								<ListItemButton role={undefined} dense>
-									<ListItemIcon>
-										<Checkbox
-											edge='start'
-											tabIndex={-1}
-											disableRipple
-											classes={{
-												root: classes.checkbox,
-												checked: classes.checkboxChecked,
-											}}
-										/>
-									</ListItemIcon>
-									<ListItemText
-										classes={{
-											primary: classes.todoText,
-											secondary: classes.todoTextSec,
-										}}
-										primary={`1,700+ Reacte from the official websi Line item ${
-											index + 1
-										}`}
-										secondary='19-10-2021'
-									/>
-								</ListItemButton>
-							</ListItem>
-						);
-					})}
-				</Stack>
+								onHover={onHoverTaskItem}
+								onMouseOut={onMouseOutTaskItem}
+								task={task}
+							/>
+						))}
+					</Stack>
+				) : (
+					<Typography my={2} textAlign='center' color='GrayText'>
+						You have no todo assignment. <b>"Add Task"</b> now 🍅
+					</Typography>
+				)}
 			</Box>
 		</Box>
 	);
