@@ -282,7 +282,7 @@ function TodoList() {
 			const q = query(
 				collection(db, 'tasks'),
 				where('uid', '==', uid),
-				orderBy('label', 'desc'),
+				orderBy('label', 'asc'),
 			);
 			const querySnapshot = await getDocs(q);
 

@@ -2,23 +2,46 @@ import { Box, Typography, useTheme } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { useContext, useEffect, useState } from 'react';
+import { db } from '../../configs/firebase';
+import { AccountContext } from '../../contexts/AccountContext';
 import { TaskModel } from '../../models/task.model';
-
-const todoList: Array<TaskModel> = [
-	{
-		id: '1124',
-		uid: '213124',
-		label: 'Học Typescript',
-		isCompleted: false,
-		createdDate: new Date(),
-	},
-];
 
 function TaskBox() {
 	const theme = useTheme();
+	const { isAuth, uid } = useContext(AccountContext);
+	const [taskList, setTaskList] = useState<Array<TaskModel>>([]);
+	const [selectedTask, setSelectedTask] = useState<string>('default');
+
+	// Load task list
+	useEffect(() => {
+		(async function () {
+			if (isAuth) {
+				const q = query(
+					collection(db, 'tasks'),
+					where('uid', '==', uid),
+					orderBy('label', 'asc'),
+				);
+				const querySnapshot = await getDocs(q);
+
+				const tasks: Array<any> = [];
+				querySnapshot.forEach((doc) => {
+					tasks.push({ ...doc.data(), id: doc.id });
+				});
+
+				setTaskList([...tasks]);
+			}
+		})();
+		return () => {};
+	}, [isAuth]);
+
+	const onTaskSelectChange = (taskId: string) => {
+		setSelectedTask(taskId);
+	};
 
 	return (
-		<Box p={2} className='wh-100 flex-col'>
+		<Box p={2} className={`wh-100 flex-col ${!isAuth ? 'disabled' : ''}`}>
 			<Typography
 				color={theme.palette.text.primary}
 				variant='h5'
@@ -34,19 +57,26 @@ function TaskBox() {
 					displayEmpty
 					id='musicSelect'
 					size='small'
-					value={-1}
+					value={selectedTask}
+					onChange={(e) => onTaskSelectChange(e.target.value)}
 				>
-					<MenuItem disabled value={-1}>
+					<MenuItem disabled value='default'>
 						<em>Choose a task</em>
 					</MenuItem>
 
-					{todoList.map((todo) => (
-						<MenuItem key={todo.id} value={todo.id}>
-							{todo.label}
+					{taskList.map((task, index) => (
+						<MenuItem key={index} value={task.id}>
+							{task.label}
 						</MenuItem>
 					))}
 				</Select>
 			</FormControl>
+
+			{!isAuth && (
+				<Typography textAlign='center' color='red' mt={1}>
+					Please login to use
+				</Typography>
+			)}
 		</Box>
 	);
 }
