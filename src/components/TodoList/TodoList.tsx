@@ -207,6 +207,20 @@ function TodoList() {
 		setTaskList([...newTaskList]);
 	};
 
+	const onUpdateTaskSuccess = (
+		taskId: string,
+		newLabel: string,
+		newDesc: string,
+	): void => {
+		const taskIndex: number = taskList.findIndex((t) => t.id === taskId);
+		if (taskIndex !== -1) {
+			let newTaskList = [...taskList];
+			newTaskList[taskIndex].label = newLabel;
+			newTaskList[taskIndex].desc = newDesc;
+			setTaskList([...newTaskList]);
+		}
+	};
+
 	// Load task list
 	useEffect(() => {
 		(async function () {
@@ -255,6 +269,7 @@ function TodoList() {
 									onHover={onHoverTaskItem}
 									onMouseOut={onMouseOutTaskItem}
 									onRemoveSuccess={onRemoveTaskSuccess}
+									onUpdateSuccess={onUpdateTaskSuccess}
 								/>
 							))}
 						</Stack>
