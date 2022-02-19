@@ -2,45 +2,48 @@ import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 function delayMusicAnimation(n = 0) {
-  let css: any = {};
-  for (let i = 1; i <= n; ++i) {
-    css[`&:nth-child(${i})`] = { animationDelay: `${(i - 1) * 0.1}s` };
-  }
-  return css;
+	let css: any = {};
+	for (let i = 1; i <= n; ++i) {
+		css[`&:nth-child(${i})`] = { animationDelay: `${(i - 1) * 0.1}s` };
+	}
+	return css;
 }
 
 export default makeStyles((theme: Theme) => ({
-  musicStroke: {
-    height: '100%',
-    width: '0.3rem',
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: 50,
-    animation: '$music 0.8s linear infinite',
-    ...delayMusicAnimation(16),
-  },
+	musicStroke: {
+		height: '100%',
+		width: '0.3rem',
+		backgroundColor: theme.palette.primary.main,
+		borderRadius: 50,
+		...delayMusicAnimation(16),
+	},
 
-  '@keyframes music': {
-    '50%': {
-      height: '20%',
-      backgroundColor: theme.palette.secondary.main,
-    },
-    '100%': {
-      height: '100%',
-    },
-  },
+	musicAnimation: {
+		animation: '$music 0.8s linear infinite',
+	},
 
-  musicControls: {
-    '& *': {
-      color: `${theme.palette.text.primary} !important`,
-    },
-  },
+	'@keyframes music': {
+		'50%': {
+			height: '20%',
+			backgroundColor: theme.palette.secondary.main,
+		},
+		'100%': {
+			height: '100%',
+		},
+	},
 
-  selectRoot: {
-    height: '3rem',
-    borderRadius: `${theme.shape.btnBorderRadius} !important`,
-  },
+	musicControls: {
+		'& *': {
+			color: `${theme.palette.text.primary} !important`,
+		},
+	},
 
-  volumeIcon: {
-    color: theme.palette.text.primary,
-  },
+	selectRoot: {
+		height: '3rem',
+		borderRadius: `${theme.shape.btnBorderRadius} !important`,
+	},
+
+	volumeIcon: {
+		color: theme.palette.text.primary,
+	},
 }));
