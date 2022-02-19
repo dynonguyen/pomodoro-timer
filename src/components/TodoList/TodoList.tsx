@@ -30,14 +30,39 @@ import { useCommonStyles } from '../../styles/commons/CommonStyle';
 import useStyles from '../../styles/TodoList';
 import TaskItem from './TaskItem';
 
+enum FILTER_VALUE {
+	ALL,
+	DOING,
+	COMPLETED,
+}
+
 interface TaskFormProps {
 	onAddTaskSuccess: (task: TaskModel) => void;
 	onCloseDialog: () => void;
 }
 
 function ActionGroup(props: any) {
-	const { classes, onAddTaskClick } = props;
+	const { classes, onAddTaskClick, onFilterChange } = props;
 	const { buttonClass, titleClass } = useCommonStyles();
+	const [filterTitle, setFilterTitle] = useState('All');
+
+	const handleFilterChange = (value: number = FILTER_VALUE.ALL) => {
+		switch (value) {
+			case FILTER_VALUE.ALL:
+				setFilterTitle('All');
+				break;
+			case FILTER_VALUE.DOING:
+				setFilterTitle('Doing');
+				break;
+			case FILTER_VALUE.COMPLETED:
+				setFilterTitle('Completed');
+				break;
+			default:
+				setFilterTitle('All');
+				break;
+		}
+		onFilterChange(value);
+	};
 
 	return (
 		<>
@@ -59,11 +84,12 @@ function ActionGroup(props: any) {
 					size='small'
 					displayEmpty
 					value={-1}
+					onChange={(e) => handleFilterChange(Number(e.target.value))}
 				>
 					<MenuItem disabled value={-1}>
 						<div className='flex-center'>
 							<FilterIcon sx={{ marginRight: '8px' }} />
-							<span>Filter</span>
+							<span>Filter - {filterTitle}</span>
 						</div>
 					</MenuItem>
 					<MenuItem value={0}>All</MenuItem>
@@ -186,6 +212,7 @@ function TaskForm(props: TaskFormProps) {
 function TodoList() {
 	const classes = useStyles();
 	const [taskList, setTaskList] = useState<Array<TaskModel>>([]);
+	const savedTaskList = useRef<Array<TaskModel>>([]);
 	const { uid } = useContext(AccountContext);
 	const [showTaskForm, setShowTaskForm] = useState(false);
 
@@ -198,13 +225,16 @@ function TodoList() {
 	};
 
 	const onAddTaskSuccess = (task: TaskModel): void => {
-		setTaskList([...taskList, task]);
+		const newTaskList = [...taskList, task];
+		setTaskList([...newTaskList]);
+		savedTaskList.current = [...newTaskList];
 		setShowTaskForm(false);
 	};
 
 	const onRemoveTaskSuccess = (taskId: string): void => {
 		const newTaskList = taskList.filter((task) => task.id !== taskId);
 		setTaskList([...newTaskList]);
+		savedTaskList.current = [...newTaskList];
 	};
 
 	const onUpdateTaskSuccess = (
@@ -219,6 +249,31 @@ function TodoList() {
 			newTaskList[taskIndex].desc = newDesc;
 			setTaskList([...newTaskList]);
 		}
+	};
+
+	const onFilter = (value: number = FILTER_VALUE.ALL) => {
+		let newTaskList: Array<TaskModel> = [];
+
+		switch (value) {
+			case FILTER_VALUE.ALL:
+				newTaskList = [...savedTaskList.current];
+				break;
+			case FILTER_VALUE.DOING:
+				newTaskList = savedTaskList.current.filter(
+					(t) => t.isCompleted === false,
+				);
+				break;
+			case FILTER_VALUE.COMPLETED:
+				newTaskList = savedTaskList.current.filter(
+					(t) => t.isCompleted === true,
+				);
+				break;
+			default:
+				newTaskList = [...savedTaskList.current];
+				break;
+		}
+
+		setTaskList([...newTaskList]);
 	};
 
 	// Load task list
@@ -237,6 +292,7 @@ function TodoList() {
 			});
 
 			setTaskList([...tasks]);
+			savedTaskList.current = [...tasks];
 		})();
 		return () => {};
 	}, []);
@@ -256,6 +312,7 @@ function TodoList() {
 				<ActionGroup
 					classes={classes}
 					onAddTaskClick={() => setShowTaskForm(true)}
+					onFilterChange={onFilter}
 				/>
 
 				{/* Task list */}

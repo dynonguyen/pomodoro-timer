@@ -19,7 +19,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { db } from '../../configs/firebase';
 import { MAX_LEN } from '../../constants/lengths';
 import { formatDate } from '../../helpers';
@@ -170,6 +170,11 @@ function TaskItem(props: TaskItemProps) {
 			isCompleted: !completedState,
 		});
 	};
+
+	useEffect(() => {
+		setCompletedState(isCompleted);
+		return () => {};
+	}, [isCompleted]);
 
 	const removeTask = async (): Promise<void> => {
 		setIsRemoving(true);
