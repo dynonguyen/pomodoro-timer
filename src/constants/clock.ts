@@ -1,0 +1,5 @@
+export enum CLOCK_MODE {
+	POMODORO,
+	SHORT_BREAK,
+	LONG_BREAK,
+}

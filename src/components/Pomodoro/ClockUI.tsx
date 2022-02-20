@@ -6,12 +6,17 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
 import useStyles from '../../styles/Clock';
 import { useCommonStyles } from '../../styles/commons/CommonStyle';
+
 let intervalId: null | ReturnType<typeof setInterval> = null;
 
 interface NewClockValue {
 	second: string;
 	minute: string;
 	circlePercent: number;
+}
+
+interface ClockUIProps {
+	onTimeout: () => void;
 }
 
 function getNewClockValue(
@@ -26,15 +31,16 @@ function getNewClockValue(
 	return { second, minute, circlePercent };
 }
 
-function Clock() {
+function ClockUI(props: ClockUIProps) {
+	const { onTimeout } = props;
 	const classes = useStyles();
 	const { buttonClass } = useCommonStyles();
+	const seconds: number = 1;
 
 	const [run, setRun] = useState<string>('start');
-	const seconds: number = 5;
-	const [secondsLeft, setSecondsLeft] = useState<number>(seconds);
+	const [secondsRemaining, setSecondsRemaining] = useState<number>(seconds);
 	const { second, minute, circlePercent } = getNewClockValue(
-		secondsLeft,
+		secondsRemaining,
 		seconds,
 	);
 
@@ -42,11 +48,10 @@ function Clock() {
 		if (run === 'start') {
 			intervalId && clearInterval(intervalId);
 			intervalId = setInterval(() => {
-				setSecondsLeft((preValue: number) => {
+				setSecondsRemaining((preValue: number) => {
 					const newSecondLeft: number = preValue - 1;
 					if (newSecondLeft <= 0) {
-						// Can xu ly khi time out
-						alert('Time out');
+						onTimeout();
 						intervalId && clearInterval(intervalId);
 						setRun('start');
 						return 0;
@@ -62,10 +67,10 @@ function Clock() {
 	};
 
 	const onReset = (): void => {
-		if (secondsLeft !== seconds) {
+		if (secondsRemaining !== seconds) {
 			intervalId && clearInterval(intervalId);
 			setRun('start');
-			setSecondsLeft(seconds);
+			setSecondsRemaining(seconds);
 		}
 	};
 
@@ -108,4 +113,4 @@ function Clock() {
 	);
 }
 
-export default Clock;
+export default ClockUI;
