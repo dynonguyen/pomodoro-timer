@@ -1,3 +1,4 @@
+import { TIMEOUT_NTFY, TIMEOUT_NTFY_TITLE } from '../../constants/clock';
 import useAlarmSound from '../../hooks/useAlarmSound';
 import ClockUI from './ClockUI';
 
@@ -29,11 +30,8 @@ function PomodoroClock({ onTimeout }: PomodoroProps) {
 
 	const handlePomodoroTimeout = () => {
 		const notification: Notification | void = showWindowNotification(
-			'Dyno Timer Notification',
-			{
-				body: 'Time to take short break time',
-				icon: '/src/favicon.png',
-			},
+			TIMEOUT_NTFY_TITLE,
+			TIMEOUT_NTFY,
 		);
 
 		if (notification) {

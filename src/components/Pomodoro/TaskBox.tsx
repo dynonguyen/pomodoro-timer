@@ -6,11 +6,13 @@ import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
 import { db } from '../../configs/firebase';
 import { AccountContext } from '../../contexts/AccountContext';
+import { TaskBoxContext } from '../../contexts/TaskBoxContext';
 import { TaskModel } from '../../models/task.model';
 
 function TaskBox() {
 	const theme = useTheme();
 	const { isAuth, uid } = useContext(AccountContext);
+	const { isDisabled } = useContext(TaskBoxContext);
 	const [taskList, setTaskList] = useState<Array<TaskModel>>([]);
 	const [selectedTask, setSelectedTask] = useState<string>('default');
 
@@ -41,7 +43,12 @@ function TaskBox() {
 	};
 
 	return (
-		<Box p={2} className={`wh-100 flex-col ${!isAuth ? 'disabled' : ''}`}>
+		<Box
+			p={2}
+			className={`wh-100 flex-col ${!isAuth ? 'disabled' : ''} ${
+				isDisabled ? 'disabled' : ''
+			}`}
+		>
 			<Typography
 				color={theme.palette.text.primary}
 				variant='h5'
