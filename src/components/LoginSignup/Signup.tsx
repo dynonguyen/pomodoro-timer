@@ -8,6 +8,7 @@ import { auth, db, doc, setDoc } from '../../configs/firebase';
 import { MAX_LEN, MIN_LEN } from '../../constants/lengths';
 import otherConstants from '../../constants/others';
 import { ROUTES } from '../../constants/routes';
+import useChangeTitle from '../../hooks/useChangeTitle';
 import { UserModel } from '../../models/user.model';
 import { useCommonStyles } from '../../styles/commons/CommonStyle';
 import useStyles from '../../styles/LoginSignup';
@@ -72,6 +73,7 @@ function signupFormValidation(formValue: SignupFormValue): FormErrorMsg {
 
 function Signup() {
 	const { buttonClass, titleClass } = useCommonStyles();
+	useChangeTitle('Signup');
 	const classes = useStyles();
 	const [isRegistering, setIsRegistering] = useState<boolean>(false);
 	const [error, setError] = useState<FormErrorMsg>({ isError: false, msg: '' });

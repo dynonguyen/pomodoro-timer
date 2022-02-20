@@ -9,6 +9,7 @@ import { MAX_LEN } from '../../constants/lengths';
 import otherConstants from '../../constants/others';
 import { ROUTES } from '../../constants/routes';
 import { AccountContext } from '../../contexts/AccountContext';
+import useChangeTitle from '../../hooks/useChangeTitle';
 import { useCommonStyles } from '../../styles/commons/CommonStyle';
 import useStyles from '../../styles/LoginSignup';
 import CustomInput from '../Commons/CustomInput';
@@ -20,6 +21,7 @@ interface SigninFormValue {
 
 function Login() {
 	const { buttonClass, titleClass } = useCommonStyles();
+	useChangeTitle('Login');
 	const classes = useStyles();
 	const [error, setError] = useState({ isError: false, msg: '' });
 	const formValues = useRef<SigninFormValue>({ username: '', password: '' });

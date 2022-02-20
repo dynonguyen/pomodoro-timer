@@ -24,3 +24,7 @@ export function formatDate(date: Date = new Date()): string {
 
 	return `${dStr}-${mStr}-${y}`;
 }
+
+export function changeAppTitle(newTitle: string): void {
+	document.title = `${newTitle} | Dyno Timer`;
+}

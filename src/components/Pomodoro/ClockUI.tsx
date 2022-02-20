@@ -5,6 +5,7 @@ import { Box, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useContext, useEffect, useState } from 'react';
 import { TaskBoxContext } from '../../contexts/TaskBoxContext';
+import { changeAppTitle } from '../../helpers';
 import useStyles from '../../styles/Clock';
 import { useCommonStyles } from '../../styles/commons/CommonStyle';
 
@@ -36,7 +37,7 @@ function ClockUI(props: ClockUIProps) {
 	const { onTimeout } = props;
 	const classes = useStyles();
 	const { buttonClass } = useCommonStyles();
-	const seconds: number = 3;
+	const seconds: number = 3 * 60;
 	const { toggleIsDisabled, isDisabled: isTaskBoxDisabled } =
 		useContext(TaskBoxContext);
 
@@ -54,6 +55,7 @@ function ClockUI(props: ClockUIProps) {
 			onTimeout();
 			intervalId && clearInterval(intervalId);
 		}
+		changeAppTitle(`Pomodoro ${minute}:${second}`);
 		return () => {};
 	}, [secondsRemaining]);
 
@@ -71,6 +73,7 @@ function ClockUI(props: ClockUIProps) {
 			setRun('stop');
 		} else {
 			intervalId && clearInterval(intervalId);
+			changeAppTitle(`Pause ${minute}:${second}`);
 			setRun('start');
 		}
 	};

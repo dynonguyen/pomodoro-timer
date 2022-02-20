@@ -25,6 +25,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { db } from '../../configs/firebase';
 import { MAX_LEN } from '../../constants/lengths';
 import { AccountContext } from '../../contexts/AccountContext';
+import useChangeTitle from '../../hooks/useChangeTitle';
 import { TaskModel } from '../../models/task.model';
 import { useCommonStyles } from '../../styles/commons/CommonStyle';
 import useStyles from '../../styles/TodoList';
@@ -210,6 +211,7 @@ function TaskForm(props: TaskFormProps) {
 }
 
 function TodoList() {
+	useChangeTitle('Todo List');
 	const classes = useStyles();
 	const [taskList, setTaskList] = useState<Array<TaskModel>>([]);
 	const savedTaskList = useRef<Array<TaskModel>>([]);
