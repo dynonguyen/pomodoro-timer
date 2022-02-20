@@ -3,7 +3,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import { Box, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { TaskBoxContext } from '../../contexts/TaskBoxContext';
 import useStyles from '../../styles/Clock';
 import { useCommonStyles } from '../../styles/commons/CommonStyle';
@@ -36,7 +36,7 @@ function ClockUI(props: ClockUIProps) {
 	const { onTimeout } = props;
 	const classes = useStyles();
 	const { buttonClass } = useCommonStyles();
-	const seconds: number = 10;
+	const seconds: number = 3;
 	const { toggleIsDisabled, isDisabled: isTaskBoxDisabled } =
 		useContext(TaskBoxContext);
 
@@ -47,6 +47,16 @@ function ClockUI(props: ClockUIProps) {
 		seconds,
 	);
 
+	// Check timeout
+	useEffect(() => {
+		if (secondsRemaining <= 0) {
+			setRun('start');
+			onTimeout();
+			intervalId && clearInterval(intervalId);
+		}
+		return () => {};
+	}, [secondsRemaining]);
+
 	const onPauseOrStart = (): void => {
 		if (run === 'start') {
 			if (!isTaskBoxDisabled) {
@@ -55,17 +65,9 @@ function ClockUI(props: ClockUIProps) {
 
 			intervalId && clearInterval(intervalId);
 			intervalId = setInterval(() => {
-				setSecondsRemaining((preValue: number) => {
-					const newSecondLeft: number = preValue - 1;
-					if (newSecondLeft <= 0) {
-						onTimeout();
-						intervalId && clearInterval(intervalId);
-						setRun('start');
-						return 0;
-					}
-					return newSecondLeft;
-				});
+				setSecondsRemaining((preValue: number) => preValue - 1);
 			}, 1000);
+
 			setRun('stop');
 		} else {
 			intervalId && clearInterval(intervalId);

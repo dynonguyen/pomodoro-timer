@@ -2,7 +2,7 @@ import { Box, Typography, useTheme } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
 import { db } from '../../configs/firebase';
 import { AccountContext } from '../../contexts/AccountContext';
@@ -12,7 +12,7 @@ import { TaskModel } from '../../models/task.model';
 function TaskBox() {
 	const theme = useTheme();
 	const { isAuth, uid } = useContext(AccountContext);
-	const { isDisabled } = useContext(TaskBoxContext);
+	const { isDisabled, setTask } = useContext(TaskBoxContext);
 	const [taskList, setTaskList] = useState<Array<TaskModel>>([]);
 	const [selectedTask, setSelectedTask] = useState<string>('default');
 
@@ -23,7 +23,7 @@ function TaskBox() {
 				const q = query(
 					collection(db, 'tasks'),
 					where('uid', '==', uid),
-					orderBy('label', 'asc'),
+					where('isCompleted', '==', false),
 				);
 				const querySnapshot = await getDocs(q);
 
@@ -40,6 +40,7 @@ function TaskBox() {
 
 	const onTaskSelectChange = (taskId: string) => {
 		setSelectedTask(taskId);
+		setTask(taskId);
 	};
 
 	return (
