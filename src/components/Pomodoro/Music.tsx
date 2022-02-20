@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from 'react';
 import useStyles from '../../styles/Music';
 
 const DEFAULT_VOLUME: number = 50;
+const LS_VOLUME_KEY = 'volume';
 
 interface MusicSrc {
 	label: string;
@@ -38,15 +39,28 @@ const musicList: Array<MusicSrc> = [
 	},
 ];
 
+function getVolumeFromLS(): number {
+	const volumeStr = localStorage.getItem(LS_VOLUME_KEY);
+	if (volumeStr && !isNaN(Number(volumeStr))) {
+		return Number(volumeStr);
+	}
+	return DEFAULT_VOLUME;
+}
+
+function setVolumeToLS(volume: number = DEFAULT_VOLUME) {
+	localStorage.setItem(LS_VOLUME_KEY, volume.toString());
+}
+
 function Music() {
 	const classes = useStyles();
 	const [playing, setPlaying] = useState<boolean>(false);
-	const [volume, setVolume] = useState<number>(DEFAULT_VOLUME);
+	const [volume, setVolume] = useState<number>(getVolumeFromLS());
 	const [musicIndex, setMusicIndex] = useState(0);
 	const audio = useRef<HTMLAudioElement>(new Audio(musicList[0].src));
 
 	useEffect(() => {
 		audio.current.volume = volume / 100;
+		setVolumeToLS(volume);
 	}, [volume]);
 
 	useEffect(() => {
