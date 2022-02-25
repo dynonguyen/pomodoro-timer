@@ -37,7 +37,7 @@ function ClockUI(props: ClockUIProps) {
 	const { onTimeout } = props;
 	const classes = useStyles();
 	const { buttonClass } = useCommonStyles();
-	const seconds: number = 3 * 60;
+	const seconds: number = 3;
 	const { toggleIsDisabled, isDisabled: isTaskBoxDisabled } =
 		useContext(TaskBoxContext);
 
