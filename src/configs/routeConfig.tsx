@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { Route, RouteComponentProps } from 'react-router-dom';
 import Login from '../components/LoginSignup/Login';
 import Pomodoro from '../components/Pomodoro/Pomodoro';
+import Settings from '../components/Settings';
 import { ROUTES } from '../constants/routes';
 const Signup = React.lazy(() => import('../components/LoginSignup/Signup'));
 const TodoList = React.lazy(() => import('../components/TodoList/TodoList'));
@@ -36,7 +37,7 @@ export const routeList: Array<RouteConfig> = [
 		path: ROUTES.SETTINGS,
 		exact: true,
 		isProtect: false,
-		render: () => <div>Settings</div>,
+		render: () => <Settings />,
 	},
 	{
 		path: ROUTES.TODO_LIST,
