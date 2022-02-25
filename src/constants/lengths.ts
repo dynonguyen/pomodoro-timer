@@ -4,6 +4,11 @@ export const MAX_LEN = {
 	FULLNAME: 50,
 	TASK_LABEL: 150,
 	TASK_DESC: 300,
+	POMODORO_TIME: 100, // minutes
+	SHORT_BREAK_TIME: 15,
+	LONG_BREAK_TIME: 30,
+	LONG_BREAK_INTERVAL: 10,
+	AUTO_CLOSE_NTFY_TIME: 120, // seconds
 };
 
 export const MIN_LEN = {

@@ -8,6 +8,7 @@ import { auth, db, doc, setDoc } from '../../configs/firebase';
 import { MAX_LEN, MIN_LEN } from '../../constants/lengths';
 import otherConstants from '../../constants/others';
 import { ROUTES } from '../../constants/routes';
+import { userSettingDefaultValue } from '../../contexts/UserSettingContext';
 import useChangeTitle from '../../hooks/useChangeTitle';
 import { UserModel } from '../../models/user.model';
 import { useCommonStyles } from '../../styles/commons/CommonStyle';
@@ -106,13 +107,17 @@ function Signup() {
 				password,
 			);
 			const { uid } = userCredential.user;
+
 			// create a new user
 			const newUser: UserModel = {
 				fullname,
 				uid,
 				username,
 			};
-			await setDoc(doc(db, 'users', uid), newUser);
+			setDoc(doc(db, 'users', uid), newUser);
+
+			// create default settings for this user
+			await setDoc(doc(db, 'settings', uid), userSettingDefaultValue);
 
 			history.push(ROUTES.LOGIN);
 		} catch (error: any) {
