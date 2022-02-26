@@ -1,34 +1,57 @@
-import { doc, increment, updateDoc } from 'firebase/firestore';
+import {
+	addDoc,
+	collection,
+	doc,
+	increment,
+	updateDoc,
+} from 'firebase/firestore';
 import { useContext, useState } from 'react';
 import { db } from '../../configs/firebase';
 import { CLOCK_MODE } from '../../constants/clock';
+import { AccountContext } from '../../contexts/AccountContext';
 import { TaskBoxContext } from '../../contexts/TaskBoxContext';
+import { UserSettingContext } from '../../contexts/UserSettingContext';
+import { PomodoroModel } from '../../models/pomodoro.model';
 import useStyles from '../../styles/TimerBox';
 import BreakClock from './BreakClock';
 import PomodoroClock from './PomodoroClock';
 
-async function updatePomodoroTime(
-	taskId: string,
-	time: number = 0,
-): Promise<void> {
-	await updateDoc(doc(db, 'tasks', taskId), {
-		pomodoroTime: increment(time),
-	});
-}
-
 function TimerBox() {
 	const classes = useStyles();
 	const [mode, setMode] = useState<number>(CLOCK_MODE.POMODORO);
+	const { isAuth, uid } = useContext(AccountContext);
 	const { taskId, toggleIsDisabled } = useContext(TaskBoxContext);
+	const { autoCompleteTask, autoStartBreak, pomodoroTime } =
+		useContext(UserSettingContext);
 
 	const handleClockTimeout = () => {
 		// Update pomodoro time for task
 		if (taskId) {
-			updatePomodoroTime(taskId, 10);
+			if (autoCompleteTask) {
+				updateDoc(doc(db, 'tasks', taskId), {
+					isCompleted: true,
+				});
+			}
+			updateDoc(doc(db, 'tasks', taskId), {
+				pomodoroTime: increment(pomodoroTime),
+			});
+		}
+
+		// Add pomodoro for user
+		if (isAuth) {
+			const newPomodoro: PomodoroModel = {
+				uid,
+				createdDate: new Date().toString(),
+				time: pomodoroTime,
+				taskId,
+			};
+			addDoc(collection(db, 'pomodoros'), newPomodoro);
 		}
 
 		toggleIsDisabled(false);
-		setMode(CLOCK_MODE.SHORT_BREAK);
+		if (autoStartBreak) {
+			setMode(CLOCK_MODE.SHORT_BREAK);
+		}
 	};
 
 	return (

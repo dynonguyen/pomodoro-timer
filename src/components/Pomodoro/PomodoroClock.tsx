@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import { TIMEOUT_NTFY, TIMEOUT_NTFY_TITLE } from '../../constants/clock';
+import { UserSettingContext } from '../../contexts/UserSettingContext';
 import useAlarmSound from '../../hooks/useAlarmSound';
 import ClockUI from './ClockUI';
 
@@ -26,7 +28,8 @@ function showWindowNotification(
 }
 
 function PomodoroClock({ onTimeout }: PomodoroProps) {
-	const alarmSound: HTMLAudioElement = useAlarmSound();
+	const alarmSound: HTMLAudioElement | null = useAlarmSound();
+	const { autoCloseNotifyAfter } = useContext(UserSettingContext);
 
 	const handlePomodoroTimeout = () => {
 		const notification: Notification | void = showWindowNotification(
@@ -34,7 +37,13 @@ function PomodoroClock({ onTimeout }: PomodoroProps) {
 			TIMEOUT_NTFY,
 		);
 
-		if (notification) {
+		if (notification && autoCloseNotifyAfter !== -1) {
+			setTimeout(() => {
+				notification.close();
+			}, autoCloseNotifyAfter * 1000);
+		}
+
+		if (notification && alarmSound) {
 			alarmSound.play();
 
 			notification.onclose = function () {

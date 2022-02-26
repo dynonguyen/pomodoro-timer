@@ -113,6 +113,7 @@ function Signup() {
 				fullname,
 				uid,
 				username,
+				avt: '',
 			};
 			setDoc(doc(db, 'users', uid), newUser);
 
