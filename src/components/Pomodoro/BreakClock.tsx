@@ -1,5 +1,13 @@
+import { useContext } from 'react';
+import { BREAK_TIMEOUT_NTFY, TIMEOUT_NTFY_TITLE } from '../../constants/clock';
+import { UserSettingContext } from '../../contexts/UserSettingContext';
 import useAlarmSound from '../../hooks/useAlarmSound';
 import ClockUI from './ClockUI';
+
+interface BreakClockProps {
+	onTimeout: () => void;
+	shortMode: boolean;
+}
 
 function showWindowNotification(
 	title: string = 'Message',
@@ -20,28 +28,41 @@ function showWindowNotification(
 	}
 }
 
-function BreakClock() {
-	const alarmSound: HTMLAudioElement = useAlarmSound();
+function BreakClock({ onTimeout, shortMode }: BreakClockProps) {
+	const alarmSound: HTMLAudioElement | null = useAlarmSound();
+	const { autoCloseNotifyAfter, shortBreakTime, longBreakTime } =
+		useContext(UserSettingContext);
 
 	const handlePomodoroTimeout = () => {
 		const notification: Notification | void = showWindowNotification(
-			'Dyno Timer Notification',
-			{
-				body: 'Time to take short break time',
-				icon: '/src/favicon.png',
-			},
+			TIMEOUT_NTFY_TITLE,
+			BREAK_TIMEOUT_NTFY,
 		);
 
-		if (notification) {
+		if (notification && autoCloseNotifyAfter !== -1) {
+			setTimeout(() => {
+				notification.close();
+			}, autoCloseNotifyAfter * 1000);
+		}
+
+		if (notification && alarmSound) {
 			alarmSound.play();
 
 			notification.onclose = function () {
 				alarmSound.pause();
 			};
 		}
+
+		onTimeout();
 	};
 
-	return <ClockUI onTimeout={handlePomodoroTimeout} />;
+	return (
+		<ClockUI
+			onTimeout={handlePomodoroTimeout}
+			time={shortMode ? shortBreakTime : longBreakTime}
+			autoStart={true}
+		/>
+	);
 }
 
 export default BreakClock;

@@ -18,6 +18,8 @@ interface NewClockValue {
 }
 
 interface ClockUIProps {
+	time: number; // minutes
+	autoStart: boolean;
 	onTimeout: () => void;
 }
 
@@ -34,10 +36,10 @@ function getNewClockValue(
 }
 
 function ClockUI(props: ClockUIProps) {
-	const { onTimeout } = props;
+	const { onTimeout, time, autoStart } = props;
 	const classes = useStyles();
 	const { buttonClass } = useCommonStyles();
-	const seconds: number = 3;
+	const seconds: number = time * 60;
 	const { toggleIsDisabled, isDisabled: isTaskBoxDisabled } =
 		useContext(TaskBoxContext);
 
@@ -56,8 +58,21 @@ function ClockUI(props: ClockUIProps) {
 			intervalId && clearInterval(intervalId);
 		}
 		changeAppTitle(`Pomodoro ${minute}:${second}`);
-		return () => {};
 	}, [secondsRemaining]);
+
+	useEffect(() => {
+		if (autoStart) {
+			onPauseOrStart();
+		}
+
+		return () => {
+			intervalId && clearInterval(intervalId);
+		};
+	}, []);
+
+	useEffect(() => {
+		onReset();
+	}, [time]);
 
 	const onPauseOrStart = (): void => {
 		if (run === 'start') {

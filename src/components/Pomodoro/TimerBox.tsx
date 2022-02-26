@@ -15,13 +15,14 @@ import { PomodoroModel } from '../../models/pomodoro.model';
 import useStyles from '../../styles/TimerBox';
 import BreakClock from './BreakClock';
 import PomodoroClock from './PomodoroClock';
+let breakTimeCounter = 0;
 
 function TimerBox() {
 	const classes = useStyles();
 	const [mode, setMode] = useState<number>(CLOCK_MODE.POMODORO);
 	const { isAuth, uid } = useContext(AccountContext);
 	const { taskId, toggleIsDisabled } = useContext(TaskBoxContext);
-	const { autoCompleteTask, autoStartBreak, pomodoroTime } =
+	const { autoCompleteTask, autoStartBreak, pomodoroTime, longBreakInterval } =
 		useContext(UserSettingContext);
 
 	const handleClockTimeout = () => {
@@ -50,6 +51,12 @@ function TimerBox() {
 
 		toggleIsDisabled(false);
 		if (autoStartBreak) {
+			if (breakTimeCounter === longBreakInterval) {
+				setMode(CLOCK_MODE.LONG_BREAK);
+				breakTimeCounter = 0;
+				return;
+			}
+			breakTimeCounter++;
 			setMode(CLOCK_MODE.SHORT_BREAK);
 		}
 	};
@@ -86,7 +93,10 @@ function TimerBox() {
 			{mode === CLOCK_MODE.POMODORO ? (
 				<PomodoroClock onTimeout={handleClockTimeout} />
 			) : (
-				<BreakClock />
+				<BreakClock
+					onTimeout={() => setMode(CLOCK_MODE.POMODORO)}
+					shortMode={mode === CLOCK_MODE.SHORT_BREAK}
+				/>
 			)}
 		</div>
 	);

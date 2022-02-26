@@ -29,7 +29,7 @@ function showWindowNotification(
 
 function PomodoroClock({ onTimeout }: PomodoroProps) {
 	const alarmSound: HTMLAudioElement | null = useAlarmSound();
-	const { autoCloseNotifyAfter } = useContext(UserSettingContext);
+	const { autoCloseNotifyAfter, pomodoroTime } = useContext(UserSettingContext);
 
 	const handlePomodoroTimeout = () => {
 		const notification: Notification | void = showWindowNotification(
@@ -54,7 +54,13 @@ function PomodoroClock({ onTimeout }: PomodoroProps) {
 		onTimeout();
 	};
 
-	return <ClockUI onTimeout={handlePomodoroTimeout} />;
+	return (
+		<ClockUI
+			onTimeout={handlePomodoroTimeout}
+			time={pomodoroTime}
+			autoStart={false}
+		/>
+	);
 }
 
 export default PomodoroClock;
