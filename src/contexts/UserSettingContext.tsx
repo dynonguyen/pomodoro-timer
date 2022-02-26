@@ -34,7 +34,7 @@ export interface UserSettingContextValue {
 }
 
 interface UserSettingContextMethod {
-	changePomodoroTime(newValue: number): void;
+	changeSettingByField(field: string, value: any): void;
 }
 
 export const userSettingDefaultValue: UserSettingContextValue = {
@@ -45,12 +45,12 @@ export const userSettingDefaultValue: UserSettingContextValue = {
 	autoCloseNotifyAfter: -1,
 	autoStartBreak: true,
 	autoCompleteTask: false,
-	alarmSoundIndex: -1,
+	alarmSoundIndex: 0,
 	alarmSoundVolume: 50,
 };
 
 const defaultMethod: UserSettingContextMethod = {
-	changePomodoroTime: () => {},
+	changeSettingByField: () => {},
 };
 
 export const UserSettingContext = createContext<
@@ -75,16 +75,14 @@ function UserSettingProvider({ children }: UserSettingContextProps) {
 		})();
 	}, [isAuth]);
 
-	const changePomodoroTime = async (
-		newValue: number = userSettingDefaultValue.pomodoroTime,
-	) => {
-		await updateUserSettings(uid, 'pomodoroTime', newValue);
-		setValue({ ...value, pomodoroTime: newValue });
+	const changeSettingByField = async (field: string, newValue: any) => {
+		await updateUserSettings(uid, field, newValue);
+		setValue({ ...value, [field]: newValue });
 	};
 
 	const renderValue: UserSettingContextValue & UserSettingContextMethod = {
 		...value,
-		changePomodoroTime,
+		changeSettingByField,
 	};
 
 	return (
