@@ -7,7 +7,7 @@ import { Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import { signOut } from 'firebase/auth';
 import { ReactNode, useContext } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { auth } from '../../configs/firebase';
 import { ROUTES } from '../../constants/routes';
 import { AccountContext } from '../../contexts/AccountContext';
@@ -53,7 +53,6 @@ function NavMenu() {
 	const { isAuth } = useContext(AccountContext);
 	const { pathname } = useLocation();
 	const activeKey = getActiveKey(menuList, pathname);
-	const history = useHistory();
 
 	const onLogout = (): void => {
 		signOut(auth.getAuth()).then(() => {

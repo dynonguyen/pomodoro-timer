@@ -9,7 +9,7 @@ interface AccountContextValue {
 	isAuth: boolean;
 	username: string;
 	fullname: string;
-	avt?: string;
+	avt: string;
 	uid: string;
 	isLoading: boolean;
 }
@@ -18,7 +18,7 @@ const defaultValue: AccountContextValue = {
 	isAuth: false,
 	username: 'anonymous',
 	fullname: 'Anonymous',
-	avt: '',
+	avt: '0',
 	uid: '',
 	isLoading: true,
 };
@@ -40,6 +40,7 @@ const AccountContextProvider = ({ children }: AccountProviderProps) => {
 					fullname: userInfo?.fullname || 'Anonymous',
 					username: userInfo?.username || 'anonymous',
 					isLoading: false,
+					avt: userInfo?.avt || '0',
 				});
 			} else {
 				setUser({ ...defaultValue, isLoading: false });
