@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Route, RouteComponentProps } from 'react-router-dom';
+import Analytic from '../components/Analytic';
 import Login from '../components/LoginSignup/Login';
 import Pomodoro from '../components/Pomodoro/Pomodoro';
 import Settings from '../components/Settings';
@@ -49,7 +50,7 @@ export const routeList: Array<RouteConfig> = [
 		path: ROUTES.ANALYTICS,
 		exact: true,
 		isProtect: true,
-		render: () => <div>ANALYTICS</div>,
+		render: () => <Analytic />,
 	},
 ];
 
