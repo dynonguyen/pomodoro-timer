@@ -19,7 +19,7 @@ import useStyles from '../../styles/AccountLogin';
 function AccountLogin() {
 	const classes = useStyles();
 	const { isAuth, fullname, avt, uid } = useContext(AccountContext);
-	const avtSrc = `/src/assets/images/avatars/${avt}.png`;
+	const avtSrc = `/assets/images/avatars/${avt}.png`;
 	const [showModal, setShowModal] = useState(false);
 	const [avtIndex, setAvtIndex] = useState(Number(avt));
 	const fullnameRef = useRef(fullname);
@@ -74,7 +74,7 @@ function AccountLogin() {
 									<Grid key={index} item sm={2}>
 										<div className='flex-center'>
 											<Avatar
-												src={`/src/assets/images/avatars/${index}.png`}
+												src={`/assets/images/avatars/${index}.png`}
 												sx={{
 													width: '64px',
 													height: '64px',

@@ -24,3 +24,10 @@ yarn-error.log*
 yarn.lock
 .env
 /.vscode
+/dist
+/build
+yarn.lock
+firebase.*
+.firebaserc
+.firebase
+/public

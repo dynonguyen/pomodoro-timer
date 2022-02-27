@@ -61,20 +61,22 @@ function calculateFocused(userData: PomodoroModel[]): ActivityCalendarType[] {
 	});
 
 	const maxCount = Math.max(...data.map((i) => i.count));
-	data.forEach((d) => {
-		const rate = d.count / maxCount;
-		if (rate == 0) {
-			d.level = 0;
-		} else if (rate < 0.2) {
-			d.level = 1;
-		} else if (rate < 0.5) {
-			d.level = 2;
-		} else if (rate < 0.75) {
-			d.level = 3;
-		} else {
-			d.level = 4;
-		}
-	});
+	if (maxCount) {
+		data.forEach((d) => {
+			const rate = d.count / maxCount;
+			if (rate == 0) {
+				d.level = 0;
+			} else if (rate < 0.2) {
+				d.level = 1;
+			} else if (rate < 0.5) {
+				d.level = 2;
+			} else if (rate < 0.75) {
+				d.level = 3;
+			} else {
+				d.level = 4;
+			}
+		});
+	}
 
 	return data;
 }
